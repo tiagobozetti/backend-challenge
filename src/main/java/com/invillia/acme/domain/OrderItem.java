@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.invillia.acme.dto.OrderItemDTO;
 
 @Entity
 public class OrderItem implements Serializable{
@@ -41,6 +42,14 @@ public class OrderItem implements Serializable{
 		this.description = description;
 		this.unitPrice = unitPrice;
 		this.quantity = quantity;
+	}
+	
+	public OrderItem(OrderItemDTO orderItemDTO) {
+		super();
+		this.id = orderItemDTO.getId();
+		this.description = orderItemDTO.getDescription();
+		this.unitPrice = orderItemDTO.getUnitPrice();
+		this.quantity = orderItemDTO.getQuantity();
 	}
 
 	public Integer getId() {

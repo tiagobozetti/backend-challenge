@@ -31,7 +31,6 @@ public class Address implements Serializable{
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="store_id")
-	@NotNull	
 	private Store store;
 	
 	@ManyToOne
@@ -60,7 +59,7 @@ public class Address implements Serializable{
 		this.streetAddress = addressDTO.getStreetAddress();
 		this.number = addressDTO.getNumber();
 		this.zipCode = addressDTO.getZipCode();
-		this.store = new Store(addressDTO.getIdStoreDTO());
+		this.store = addressDTO.getIdStoreDTO()==null?null:new Store(addressDTO.getIdStoreDTO());
 		this.city = new City(addressDTO.getCityDTO());
 	}
 	

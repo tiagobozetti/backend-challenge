@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.invillia.acme.dto.OrderDTO;
 
 @Entity
 @Table(name="\"Order\"")
@@ -54,6 +55,14 @@ public class Order implements Serializable{
 		this.status = status;
 	}
 
+	public Order(OrderDTO orderDTO) {
+		super();
+		this.id = orderDTO.getId();
+		this.address = new Address(orderDTO.getAddressDTO());
+		this.confirmationDate = orderDTO.getConfirmationDate();
+		this.status = orderDTO.getStatus();
+	}
+	
 	public Integer getId() {
 		return id;
 	}

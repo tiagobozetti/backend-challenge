@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.invillia.acme.domain.Order;
+import com.invillia.acme.dto.OrderDTO;
 import com.invillia.acme.repositories.OrderRepository;
 import com.invillia.acme.service.exceptions.DataIntegrityException;
 import com.invillia.acme.service.exceptions.ObjectNotFoundException;
@@ -60,12 +62,9 @@ public class OrderService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return orderRepository.findAll(pageRequest);
 	}
+
+	public Order fromDTO(@Valid OrderDTO orderDTO) {
+		return new Order();
+	}
 	
-//	public Order fromDto(OrderDTO orderDTO) {
-//		return new Order(orderDTO.getId(), orderDTO.getNome());
-//	}
-	
-//	private void updateData(Order newOrder, Order order) {
-//		newOrder.setNome(order.getNome());
-//	}
 }
