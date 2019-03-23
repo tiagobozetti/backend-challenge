@@ -34,6 +34,15 @@ public class OrderItem implements Serializable{
 		
 	}
 	
+	public OrderItem(Integer id, Order order, String description, Double unitPrice, Double quantity) {
+		super();
+		this.id = id;
+		this.order = order;
+		this.description = description;
+		this.unitPrice = unitPrice;
+		this.quantity = quantity;
+	}
+
 	public Integer getId() {
 		return id;
 	}

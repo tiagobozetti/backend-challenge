@@ -20,6 +20,7 @@ public class State implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String abreviation;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="state")
@@ -29,10 +30,11 @@ public class State implements Serializable{
 		
 	}
 
-	public State(Integer id, String name) {
+	public State(Integer id, String name, String abreviation) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.abreviation = abreviation;
 	}
 
 	public Integer getId() {
@@ -57,6 +59,14 @@ public class State implements Serializable{
 
 	public void setCities(List<City> cities) {
 		this.cities = cities;
+	}
+
+	public String getAbreviation() {
+		return abreviation;
+	}
+
+	public void setAbreviation(String abreviation) {
+		this.abreviation = abreviation;
 	}
 
 	@Override

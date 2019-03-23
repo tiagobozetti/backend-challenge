@@ -39,6 +39,15 @@ public class Payment implements Serializable{
 		
 	}
 
+	public Payment(Integer id, Order order, Date paymentDate, String creditCardNumber, Integer status) {
+		super();
+		this.id = id;
+		this.order = order;
+		this.paymentDate = paymentDate;
+		this.creditCardNumber = creditCardNumber;
+		this.status = status;
+	}
+
 	public Integer getId() {
 		return id;
 	}
