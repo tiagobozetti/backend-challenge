@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.invillia.acme.dto.StateDTO;
 
 @Entity
 public class State implements Serializable{
@@ -37,6 +38,13 @@ public class State implements Serializable{
 		this.abreviation = abreviation;
 	}
 
+	public State(StateDTO stateDTO) {
+		super();
+		this.id = stateDTO.getId();
+		this.name = stateDTO.getName();
+		this.abreviation = stateDTO.getName();
+	}
+	
 	public Integer getId() {
 		return id;
 	}

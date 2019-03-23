@@ -8,8 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.invillia.acme.dto.AddressDTO;
 
 @Entity
 public class Address implements Serializable{
@@ -18,17 +21,22 @@ public class Address implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	@NotEmpty
 	private String streetAddress;
+	@NotEmpty
 	private String number;
+	@NotEmpty
 	private String zipCode;
 	
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="store_id")
+	@NotNull	
 	private Store store;
 	
 	@ManyToOne
 	@JoinColumn(name="city_id")
+	@NotNull
 	private City city;
 	
 	public Address() {
@@ -46,6 +54,16 @@ public class Address implements Serializable{
 		this.city = city;
 	}
 
+	public Address(AddressDTO addressDTO) {
+		super();
+		this.id = addressDTO.getId();
+		this.streetAddress = addressDTO.getStreetAddress();
+		this.number = addressDTO.getNumber();
+		this.zipCode = addressDTO.getZipCode();
+		this.store = new Store(addressDTO.getIdStoreDTO());
+		this.city = new City(addressDTO.getCityDTO());
+	}
+	
 	public Integer getId() {
 		return id;
 	}

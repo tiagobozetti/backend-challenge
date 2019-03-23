@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.invillia.acme.dto.StoreDTO;
+
 @Entity
 public class Store implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -31,6 +33,17 @@ public class Store implements Serializable{
 		super();
 		this.id = id;
 		this.name = name;
+	}
+	
+	public Store(Integer id) {
+		super();
+		this.id = id;
+	}
+	
+	public Store(StoreDTO storeDTO) {
+		super();
+		this.id = storeDTO.getId();
+		this.name = storeDTO.getName();
 	}
 
 	public Integer getId() {
