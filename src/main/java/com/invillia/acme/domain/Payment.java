@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.invillia.acme.dto.PaymentDTO;
 
 @Entity
 public class Payment implements Serializable{
@@ -46,6 +47,15 @@ public class Payment implements Serializable{
 		this.paymentDate = paymentDate;
 		this.creditCardNumber = creditCardNumber;
 		this.status = status;
+	}
+	
+	public Payment(PaymentDTO paymentDTO) {
+		super();
+		this.id = paymentDTO.getId();
+		this.order = new Order(paymentDTO.getOrderId());
+		this.paymentDate = paymentDTO.getPaymentDate();
+		this.creditCardNumber = paymentDTO.getCreditCardNumber();
+		this.status = paymentDTO.getStatus();
 	}
 
 	public Integer getId() {

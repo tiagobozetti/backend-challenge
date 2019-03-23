@@ -39,10 +39,7 @@ public class OrderService {
 	}
 	
 	public Order update(Order order) {
-//	 	Order newOrder = find(order.getId());
-//		updateData(newOrder, order);
-//		return orderRepository.save(newOrder);
-		return null;
+	 	return orderRepository.save(order);
 	}
 	
 	public void delete(Integer id) {

@@ -47,6 +47,11 @@ public class Order implements Serializable{
 		
 	}
 	
+	public Order(Integer id) {
+		super();
+		this.id = id;
+	}
+	
 	public Order(Integer id, Address address, Date confirmationDate, Integer status) {
 		super();
 		this.id = id;
