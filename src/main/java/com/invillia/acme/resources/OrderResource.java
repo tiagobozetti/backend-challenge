@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.invillia.acme.domain.Address;
 import com.invillia.acme.domain.Order;
 import com.invillia.acme.domain.OrderItem;
+import com.invillia.acme.domain.enums.StatusOrder;
 import com.invillia.acme.dto.OrderDTO;
 import com.invillia.acme.service.AddressService;
 import com.invillia.acme.service.OrderItemService;
@@ -41,6 +43,17 @@ public class OrderResource {
 		return ResponseEntity.ok().body(order);
 	}
 	
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<List<Order>> findStatus(@RequestParam(value="status", defaultValue="OPEN") String status) {
+		List<Order> order = orderService.findByStatus(StatusOrder.valueOf(status));
+		
+		if (order.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok().body(order);
+		}
+	}
+	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody @Valid OrderDTO orderDTO) {
 		Address address = new Address(orderDTO.getAddressDTO());
@@ -48,6 +61,7 @@ public class OrderResource {
 		
 		Order order = orderService.fromDTO(orderDTO);
 		order.setAddress(address);
+		order.setStatus(StatusOrder.OPEN.getId());
 		order = orderService.insert(order);
 		
 		List<OrderItem> listItems = orderDTO.getItems().stream().map(obj -> new OrderItem(obj)).collect(Collectors.toList());

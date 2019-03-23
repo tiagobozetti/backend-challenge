@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.invillia.acme.domain.Order;
+import com.invillia.acme.domain.enums.StatusOrder;
 import com.invillia.acme.dto.OrderDTO;
 import com.invillia.acme.repositories.OrderRepository;
 import com.invillia.acme.service.exceptions.DataIntegrityException;
@@ -65,6 +66,10 @@ public class OrderService {
 
 	public Order fromDTO(@Valid OrderDTO orderDTO) {
 		return new Order();
+	}
+	
+	public List<Order> findByStatus(StatusOrder statusOrder) {
+		return orderRepository.findByStatus(statusOrder.getId());
 	}
 	
 }
