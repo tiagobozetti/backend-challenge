@@ -8,4 +8,6 @@ import com.invillia.acme.domain.Store;
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Integer>{
 
+	Store findByEmail(String email);
+
 }

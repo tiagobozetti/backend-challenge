@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
 
 import com.invillia.acme.dto.StoreDTO;
 
@@ -25,14 +26,20 @@ public class Store implements Serializable{
 	@OneToMany(mappedBy="store", cascade=CascadeType.ALL)
 	private List<Address> addresses = new ArrayList<>();
 	
+	@Email
+	private String email;
+	private String senha;
+	
 	public Store() {
 		
 	}
 
-	public Store(Integer id, String name) {
+	public Store(Integer id, String name, String email, String senha) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.email = email;
+		this.senha = senha;
 	}
 	
 	public Store(Integer id) {
@@ -68,6 +75,22 @@ public class Store implements Serializable{
 
 	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	@Override

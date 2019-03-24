@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.invillia.acme.domain.Address;
@@ -41,6 +42,8 @@ public class DatabaseInitialService {
 	private OrderItemRepository orderItemRepository;
 	@Autowired
 	private PaymentRepository paymentRepository;
+	@Autowired
+	private BCryptPasswordEncoder bCryp;
 	
 	public void instantiateTestDatabase() throws ParseException {
 		State stateAL = new State(null, "Alabama", "AL");
@@ -59,11 +62,11 @@ public class DatabaseInitialService {
 		City city6 = new City(null, "San Jose", stateCA);
 		cityRepository.saveAll(Arrays.asList(city1,city2,city3,city4,city5,city6));
 		
-		Store store1 = new Store(null, "Store 1");
-		Store store2 = new Store(null, "Store 2");
-		Store store3 = new Store(null, "Store 3");
-		Store store4 = new Store(null, "Store 4");
-		Store store5 = new Store(null, "Store 5");
+		Store store1 = new Store(null, "Store 1", "store1@gmail.com", bCryp.encode("123"));
+		Store store2 = new Store(null, "Store 2", "store2@gmail.com", bCryp.encode("123"));
+		Store store3 = new Store(null, "Store 3", "store3@gmail.com", bCryp.encode("123"));
+		Store store4 = new Store(null, "Store 4", "store4@gmail.com", bCryp.encode("123"));
+		Store store5 = new Store(null, "Store 5", "store5@gmail.com", bCryp.encode("123"));
 		
 		storeRepository.saveAll(Arrays.asList(store1,store2,store3,store4,store5));
 		

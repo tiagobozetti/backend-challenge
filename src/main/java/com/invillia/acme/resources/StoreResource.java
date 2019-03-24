@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class StoreResource {
 		return ResponseEntity.ok().body(storeDTO);
 	}
 	
+	@PermitAll
 	@ApiOperation(value = "Create a store and yours addresses")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody @Valid StoreDTO storeDTO) {

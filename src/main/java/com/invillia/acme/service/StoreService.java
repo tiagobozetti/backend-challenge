@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.invillia.acme.domain.Address;
@@ -26,6 +27,8 @@ public class StoreService {
 	private StoreRepository storeRepository;
 	@Autowired
 	private AddressService addressService;
+	@Autowired
+	private BCryptPasswordEncoder bCryp;
 
 	public Store find(Integer id) {
 		Optional<Store> cat = storeRepository.findById(id);
@@ -36,6 +39,7 @@ public class StoreService {
 	@Transactional
 	public Store insert(Store store) {
 		store.setId(null);
+		store.setSenha(store.getSenha());
 		return storeRepository.save(store);
 	}
 	
@@ -65,7 +69,7 @@ public class StoreService {
 	}
 	
 	public Store fromDTO(StoreDTO storeDTO) {
-		Store store = new Store(storeDTO.getId(), storeDTO.getName());		
+		Store store = new Store(storeDTO.getId(), storeDTO.getName(), storeDTO.getEmail(), bCryp.encode(storeDTO.getSenha()));		
 		
 		return store;
 	}
