@@ -1,5 +1,6 @@
 package com.invillia.acme.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,10 +16,13 @@ import org.springframework.stereotype.Service;
 
 import com.invillia.acme.domain.Order;
 import com.invillia.acme.domain.enums.StatusOrder;
+import com.invillia.acme.domain.enums.StatusPayment;
 import com.invillia.acme.dto.OrderDTO;
 import com.invillia.acme.repositories.OrderRepository;
 import com.invillia.acme.service.exceptions.DataIntegrityException;
+import com.invillia.acme.service.exceptions.GenericException;
 import com.invillia.acme.service.exceptions.ObjectNotFoundException;
+import com.invillia.acme.util.DateUtil;
 
 @Service
 public class OrderService {
@@ -68,5 +72,26 @@ public class OrderService {
 	public List<Order> findByStatus(StatusOrder statusOrder) {
 		return orderRepository.findByStatus(statusOrder.getId());
 	}
+
+	public void refound(Integer id) {
+		Order order = find(id);
+		
+		if (!order.getStatus().equals(StatusOrder.CONCLUDED.getId())) {
+			throw new GenericException("Order not concluded");
+		}
+		
+		if (!order.getPayment().getStatus().equals(StatusPayment.CONCLUDED.getId())) {
+			throw new GenericException("Payment not concluded");
+		}
+		
+		if (DateUtil.getDifferenceDays(order.getConfirmationDate(), new Date()) > 10) {
+			throw new GenericException("Deadline for return exceeded");
+		}
+		
+		order.setStatus(StatusOrder.REFUNDED.getId());
+		orderRepository.save(order);
+	}
+	
+	
 	
 }

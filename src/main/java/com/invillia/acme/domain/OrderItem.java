@@ -31,6 +31,8 @@ public class OrderItem implements Serializable{
 	
 	private Double quantity;
 	
+	private Boolean refunded = false;
+	
 	public OrderItem() {
 		
 	}
@@ -91,4 +93,13 @@ public class OrderItem implements Serializable{
 	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
+
+	public Boolean getRefunded() {
+		return refunded;
+	}
+
+	public void setRefunded(Boolean refunded) {
+		this.refunded = refunded;
+	}
+	
 }

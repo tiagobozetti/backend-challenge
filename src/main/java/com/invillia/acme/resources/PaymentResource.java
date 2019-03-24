@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.invillia.acme.domain.Order;
 import com.invillia.acme.domain.Payment;
+import com.invillia.acme.domain.enums.StatusOrder;
 import com.invillia.acme.domain.enums.StatusPayment;
 import com.invillia.acme.dto.PaymentDTO;
 import com.invillia.acme.service.PaymentService;
+import com.invillia.acme.service.exceptions.GenericException;
 
 @RestController
 @RequestMapping(value="/payments")
@@ -43,10 +46,21 @@ public class PaymentResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@RequestMapping(value="/confirm/{id}", method=RequestMethod.POST)
-	public ResponseEntity<Payment> confirm(@PathVariable Integer id) {
+	@RequestMapping(value="/{id}/status", method=RequestMethod.PATCH)
+	public ResponseEntity<Payment> confirm(@RequestBody @Valid PaymentDTO paymentDTO, @PathVariable Integer id) {
 		Payment payment = paymentService.find(id);
-		paymentService.confirma(payment.getId());
-		return ResponseEntity.ok().body(payment);
+		
+		if (paymentDTO.getStatus() == null) {
+			throw new GenericException("Status is required.");
+		} else {
+			if (paymentDTO.getStatus().equals(StatusOrder.REFUNDED.getId())) {			
+				paymentService.confirm(id);
+			} else {
+				payment.setStatus(paymentDTO.getStatus());
+				paymentService.update(payment);
+			}
+		}
+		
+		return ResponseEntity.noContent().build();
 	}
 }

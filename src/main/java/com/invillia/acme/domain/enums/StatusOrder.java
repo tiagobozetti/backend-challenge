@@ -3,7 +3,8 @@ package com.invillia.acme.domain.enums;
 public enum StatusOrder {
 
 	OPEN(1, "Open"),
-	CONCLUDED(2, "Concluded");
+	CONCLUDED(2, "Concluded"),
+	REFUNDED(3, "Refunded");
 	
 	private int id;
 	private String description;

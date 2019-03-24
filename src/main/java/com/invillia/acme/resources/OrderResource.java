@@ -24,6 +24,7 @@ import com.invillia.acme.dto.OrderDTO;
 import com.invillia.acme.service.AddressService;
 import com.invillia.acme.service.OrderItemService;
 import com.invillia.acme.service.OrderService;
+import com.invillia.acme.service.exceptions.GenericException;
 
 @RestController
 @RequestMapping(value="/orders")
@@ -72,5 +73,23 @@ public class OrderResource {
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(order.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+	}
+	
+	@RequestMapping(value="{id}/status", method=RequestMethod.PATCH)
+	public ResponseEntity<Void> status(@RequestBody @Valid OrderDTO orderDTO, @PathVariable Integer id) {
+		Order order = orderService.find(id);
+		
+		if (orderDTO.getStatus() == null) {
+			throw new GenericException("Status is required.");
+		} else {
+			if (orderDTO.getStatus().equals(StatusOrder.REFUNDED.getId())) {			
+				orderService.refound(id);
+			} else {
+				order.setStatus(orderDTO.getStatus());
+				orderService.update(order);
+			}
+		}
+		
+		return ResponseEntity.noContent().build();
 	}
 }

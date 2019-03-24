@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.invillia.acme.service.exceptions.DataIntegrityException;
+import com.invillia.acme.service.exceptions.GenericException;
 import com.invillia.acme.service.exceptions.ObjectNotFoundException;
 
 @ControllerAdvice
@@ -43,6 +44,14 @@ public class ResourceExceptionHandler {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<StandardError> illegalArgumentException(IllegalArgumentException e, HttpServletRequest request){
+		
+		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	
+	@ExceptionHandler(GenericException.class)
+	public ResponseEntity<StandardError> genericException(GenericException e, HttpServletRequest request){
 		
 		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
 		

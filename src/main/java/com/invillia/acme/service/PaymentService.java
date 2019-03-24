@@ -43,6 +43,10 @@ public class PaymentService {
 		return paymentRepository.save(payment);
 	}
 	
+	public Payment update(Payment payment) {
+	 	return paymentRepository.save(payment);
+	}
+	
 	@Transactional
 	public void delete(Integer id) {
 		find(id);
@@ -68,7 +72,7 @@ public class PaymentService {
 	}
 	
 	@Transactional
-	public void confirma(Integer id) {
+	public void confirm(Integer id) {
 		Payment payment = find(id);
 		payment.setStatus(StatusPayment.CONCLUDED.getId());
 		paymentRepository.save(payment);
