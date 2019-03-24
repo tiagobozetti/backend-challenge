@@ -21,8 +21,12 @@ import com.invillia.acme.dto.StoreDTO;
 import com.invillia.acme.service.AddressService;
 import com.invillia.acme.service.StoreService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value="/stores")
+@Api(value = "Store", description = "Manage store")
 public class StoreResource {
 	
 	@Autowired
@@ -30,6 +34,7 @@ public class StoreResource {
 	@Autowired
 	private AddressService addressService;
 
+	@ApiOperation(value = "Returns a Store by id")
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<StoreDTO> find(@PathVariable Integer id) {
 		Store store = storeService.find(id);
@@ -38,6 +43,7 @@ public class StoreResource {
 		return ResponseEntity.ok().body(storeDTO);
 	}
 	
+	@ApiOperation(value = "Create a store and yours addresses")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody @Valid StoreDTO storeDTO) {
 		Store store = storeService.fromDTO(storeDTO);
@@ -51,6 +57,7 @@ public class StoreResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation(value = "Change a store")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody @Valid StoreDTO storeDTO, @PathVariable Integer id) {
 		Store store = storeService.fromDTO(storeDTO);

@@ -21,13 +21,18 @@ import com.invillia.acme.dto.PaymentDTO;
 import com.invillia.acme.service.PaymentService;
 import com.invillia.acme.service.exceptions.GenericException;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value="/payments")
+@Api(value = "Payments", description = "Manage payments")
 public class PaymentResource {
 	
 	@Autowired
 	private PaymentService paymentService;
 
+	@ApiOperation(value = "Returns all payments")			
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Payment> find(@PathVariable Integer id) {
 		Payment payment = paymentService.find(id);
@@ -35,6 +40,7 @@ public class PaymentResource {
 		return ResponseEntity.ok().body(payment);
 	}
 	
+	@ApiOperation(value = "Create a payment")			
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody @Valid PaymentDTO paymentDTO) {
 		
@@ -46,6 +52,7 @@ public class PaymentResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation(value = "Change status")			
 	@RequestMapping(value="/{id}/status", method=RequestMethod.PATCH)
 	public ResponseEntity<Payment> confirm(@RequestBody @Valid PaymentDTO paymentDTO, @PathVariable Integer id) {
 		Payment payment = paymentService.find(id);

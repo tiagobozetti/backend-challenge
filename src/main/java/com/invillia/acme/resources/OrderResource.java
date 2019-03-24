@@ -26,8 +26,12 @@ import com.invillia.acme.service.OrderItemService;
 import com.invillia.acme.service.OrderService;
 import com.invillia.acme.service.exceptions.GenericException;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value="/orders")
+@Api(value = "Orders", description = "Manage order")
 public class OrderResource {
 	
 	@Autowired
@@ -37,6 +41,7 @@ public class OrderResource {
 	@Autowired
 	private OrderItemService orderItemService;
 
+	@ApiOperation(value = "Returns order by id")	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Order> find(@PathVariable Integer id) {
 		Order order = orderService.find(id);
@@ -44,6 +49,7 @@ public class OrderResource {
 		return ResponseEntity.ok().body(order);
 	}
 	
+	@ApiOperation(value = "Returns orders by status")	
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<List<Order>> findStatus(@RequestParam(value="status", defaultValue="OPEN") String status) {
 		List<Order> order = orderService.findByStatus(StatusOrder.valueOf(status));
@@ -55,6 +61,7 @@ public class OrderResource {
 		}
 	}
 	
+	@ApiOperation(value = "Create a order and your items")		
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody @Valid OrderDTO orderDTO) {
 		Address address = new Address(orderDTO.getAddressDTO());
@@ -75,6 +82,7 @@ public class OrderResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation(value = "Change the status")		
 	@RequestMapping(value="{id}/status", method=RequestMethod.PATCH)
 	public ResponseEntity<Void> status(@RequestBody @Valid OrderDTO orderDTO, @PathVariable Integer id) {
 		Order order = orderService.find(id);

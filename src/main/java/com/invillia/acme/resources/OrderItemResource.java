@@ -16,13 +16,18 @@ import com.invillia.acme.domain.Order;
 import com.invillia.acme.domain.OrderItem;
 import com.invillia.acme.service.OrderItemService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value="/orders")
+@Api(value = "Orders Items", description = "Manage item order")
 public class OrderItemResource {
 	
 	@Autowired
 	private OrderItemService orderItemService;
 
+	@ApiOperation(value = "Returns all items of a Order")
 	@RequestMapping(value="/{id}/items", method=RequestMethod.GET)
 	public ResponseEntity<List<OrderItem>> find(@PathVariable Integer id) {
 		List<OrderItem> list = orderItemService.findByOrderId(id);
@@ -30,6 +35,7 @@ public class OrderItemResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@ApiOperation(value = "Change item")
 	@RequestMapping(value="/{id}/items/{idItem}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody @Valid OrderItem orderItem, @PathVariable Integer id, @PathVariable Integer idItem) {
 		OrderItem item = orderItemService.find(idItem);
